@@ -1,15 +1,10 @@
 import { Plugin } from "obsidian";
 
-// class X title
-const CalloutIconDict: Record<string, string> = {
-	"lucide-pencil": "Note",
-};
-
 export default class ExamplePlugin extends Plugin {
 	async onload() {
-		this.registerMarkdownPostProcessor(async (element, context) => {
+		this.registerMarkdownPostProcessor((element, context) => {
 			let f = async () => {
-				let svgs = await element.findAll(`svg.svg-icon`);
+				let svgs = element.findAll(`svg.svg-icon`);
 				svgs = svgs.filter(svg => svg.parentElement?.classList.contains('callout-icon'))
 
 				if (svgs.length > 0) clearInterval(handle);
