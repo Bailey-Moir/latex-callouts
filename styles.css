@@ -6,3 +6,39 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+
+* {
+    --callout-radius: 0px;
+    --callout-title-weight: var(--font-normal);
+}
+
+.cm-callout {
+    /** padding-top: 10px !important; **/
+}
+
+.callout {
+    /** even padding **/
+    padding-left: 12px !important;
+    border-color: var(--text-normal) !important;
+    border-image: none !important;
+    border-width: 1px !important;
+    background-color: transparent !important;
+}
+
+.callout-title {
+    padding: 0px !important;
+    align-items: center !important;
+}
+
+.callout-title, .callout-icon > svg {
+    color: var(--text-normal);
+}
+
+.callout-content {
+    /** centering content **/
+    padding-left: 0px !important;
+}
+
+.callout-fold { 
+    margin-left: auto;
+}
