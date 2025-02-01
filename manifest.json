@@ -4,7 +4,7 @@
 	"version": "1.0.1",
 	"minAppVersion": "1.2.0",
 	"description": "Callouts themed as latex blocks",
-	"author": "Bailey Moir <bailey.p.moir@gmail.com>",
+	"author": "Bailey Moir",
 	"authorUrl": "https://github.com/Bailey-Moir",
 	"isDesktopOnly": false
 }
