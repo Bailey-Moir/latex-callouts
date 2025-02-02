@@ -44,3 +44,7 @@ If your plugin does not need CSS, delete this file.
 .callout-fold { 
     margin-left: auto;
 }
+
+.callout-latex-title {
+	font-weight: 600;
+}

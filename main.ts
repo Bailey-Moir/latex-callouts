@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
 
-export default class MyPlugin extends Plugin {
+export default class LatexCalloutsPlugin extends Plugin {
 	async onload() {
 		const processIcons = (element: HTMLElement) => {
 			let handle = setInterval(async () => {
@@ -15,11 +15,11 @@ export default class MyPlugin extends Plugin {
 		
 					let titleElement = svg.parentElement?.nextElementSibling!;
 					
-					if (titleElement.innerHTML == title) titleElement.innerHTML = "";
+					if (titleElement.textContent == title) titleElement.textContent = "";
 					
 					let b = document.createElement("b");
-					b.innerHTML = title + " "
-					b.style.fontWeight = "600";
+					b.textContent = title + " "
+					b.classList.add("callout-latex-title");
 					
 					titleElement.prepend(b);
 		
