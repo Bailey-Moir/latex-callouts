@@ -36,6 +36,10 @@ If your plugin does not need CSS, delete this file.
     color: var(--text-normal);
 }
 
+.callout-title-inner {
+    width: 100%;
+}
+
 .callout-content {
     /** centering content **/
     padding-left: 0px !important;
