@@ -12,14 +12,19 @@ If your plugin does not need CSS, delete this file.
 	--callout-title-weight: var(--font-normal);
 }
 
-.callout.callout {
+.callout.callout-bordered {
 	/** even padding **/
-	/* padding-left: 12px;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
+	padding-left: 12px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 	border-color: var(--text-normal);
 	border-image: none;
-	border-width: 1px; */
+	border-width: 1px;
+	background-color: transparent;
+}
+
+.callout:not(.callout-bordered) {
+	/** even padding **/
 	padding: 0px;
 	border-width: 0px;
 	background-color: transparent;
@@ -45,9 +50,11 @@ If your plugin does not need CSS, delete this file.
 	margin: 0;
 }
 
-.callout-content {
-	/** centering content **/
-	/* padding-left: 0px; */
+.callout.callout-bordered .callout-content {
+	padding-left: 0px;
+}
+
+.callout:not(.callout-bordered) .callout-content {
 	padding-left: 1ch;
 }
 

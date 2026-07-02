@@ -1,10 +1,25 @@
-import { Plugin } from 'obsidian'
+import { Plugin, App, PluginSettingTab, Setting } from 'obsidian'
 
 const titleRegex = /([^(]*)(?:\(([^)]*)\))?/
 
+interface LatexCalloutsSettings {
+	border: boolean
+}
+
+const DEFAULT_SETTINGS: LatexCalloutsSettings = {
+	border: false,
+}
+
 export default class LatexCalloutsPlugin extends Plugin {
-	process(this: void, element: HTMLElement) {
+	settings: LatexCalloutsSettings
+
+	process = (element: HTMLElement) => {
 		const handle = window.setInterval(() => {
+			element.findAll('div.callout').forEach(callout => {
+				if (this.settings.border) !callout.classList.contains('callout-bordered') && callout.classList.add('callout-bordered')
+				else callout.classList.contains('callout-bordered') && callout.classList.remove('callout-bordered')
+			})
+
 			element
 				.findAll(`svg.svg-icon`)
 				.filter(svg => svg.parentElement?.classList.contains('callout-icon'))
@@ -60,8 +75,40 @@ export default class LatexCalloutsPlugin extends Plugin {
 		window.setTimeout(() => window.clearInterval(handle), 10_000)
 	}
 
-	onload() {
+	async saveSettings() {
+		await this.saveData(this.settings)
+	}
+
+	async onload() {
 		this.registerMarkdownPostProcessor(this.process)
 		this.app.workspace.on('layout-change', () => this.app.workspace.iterateAllLeaves(leaf => leaf.view.getViewType() === 'markdown' && this.process(leaf.view.containerEl)))
+
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+		this.addSettingTab(new LatexCalloutsSettingTab(this.app, this))
+	}
+}
+
+class LatexCalloutsSettingTab extends PluginSettingTab {
+	plugin: LatexCalloutsPlugin
+
+	constructor(app: App, plugin: LatexCalloutsPlugin) {
+		super(app, plugin)
+		this.plugin = plugin
+	}
+
+	display(): void {
+		const { containerEl } = this
+
+		containerEl.empty()
+
+		new Setting(containerEl)
+			.setName('Bordered callouts')
+			.setDesc('Toggle callouts using block borders.')
+			.addToggle(toggle =>
+				toggle.setValue(this.plugin.settings.border).onChange(async value => {
+					this.plugin.settings.border = value
+					await this.plugin.saveSettings()
+				}),
+			)
 	}
 }
