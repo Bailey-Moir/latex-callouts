@@ -1,10 +1,10 @@
 {
-	"id": "latex-callouts",
-	"name": "Latex Styled Callouts",
-	"version": "1.0.3",
-	"minAppVersion": "1.2.0",
-	"description": "Callouts themed as latex blocks",
-	"author": "Bailey Moir",
-	"authorUrl": "https://github.com/Bailey-Moir",
-	"isDesktopOnly": false
+  "id": "latex-callouts",
+  "name": "Latex Styled Callouts",
+  "version": "1.1.0",
+  "minAppVersion": "1.12.0",
+  "description": "Callouts themed as LaTeX blocks.",
+  "author": "Bailey Moir",
+  "authorUrl": "https://github.com/Bailey-Moir",
+  "isDesktopOnly": false
 }

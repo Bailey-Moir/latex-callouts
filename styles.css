@@ -44,6 +44,11 @@ If your plugin does not need CSS, delete this file.
 	width: 100%;
 }
 
+.callout-title .math-block mjx-container {
+	padding: 0.5em 0 !important;
+	margin: 0 !important;
+}
+
 .callout-content {
 	/** centering content **/
 	/* padding-left: 0px !important; */
@@ -54,6 +59,7 @@ If your plugin does not need CSS, delete this file.
 	margin-left: auto;
 }
 
+/* Custom */
 .callout-latex-title {
 	font-weight: 600;
 }
