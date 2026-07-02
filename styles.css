@@ -18,12 +18,12 @@ If your plugin does not need CSS, delete this file.
 
 .callout {
 	/** even padding **/
-	padding-left: 12px !important;
+	/* padding-left: 12px !important;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 	border-color: var(--text-normal) !important;
 	border-image: none !important;
-	border-width: 1px !important;
+	border-width: 1px !important; */
 	background-color: transparent !important;
 }
 
