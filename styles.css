@@ -29,6 +29,7 @@ If your plugin does not need CSS, delete this file.
 
 .callout-title {
 	padding: 0px !important;
+	gap: 0px !important;
 	align-items: center !important;
 }
 
@@ -43,7 +44,8 @@ If your plugin does not need CSS, delete this file.
 
 .callout-content {
 	/** centering content **/
-	padding-left: 0px !important;
+	/* padding-left: 0px !important; */
+	padding-left: 1ch !important;
 }
 
 .callout-fold {
