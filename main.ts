@@ -1,44 +1,55 @@
-import { Plugin } from "obsidian";
+import { Plugin } from 'obsidian'
+
+const titleRegex = /([^(]*)\(([^)]*)\)?/
 
 export default class LatexCalloutsPlugin extends Plugin {
-	async onload() {
-		const processIcons = (element: HTMLElement) => {
-			let handle = setInterval(async () => {
-				let svgs = element.findAll(`svg.svg-icon`);
-				svgs = svgs.filter(svg => svg.parentElement?.classList.contains('callout-icon'))
-		
-				//if (svgs.length > 0) clearInterval(handle);
-		
-				svgs.forEach((svg) => {
-					let title = svg.parentElement?.parentElement?.parentElement?.getAttr("data-callout")!;
-					title = title.charAt(0).toUpperCase() + title.slice(1);
-		
-					let titleElement = svg.parentElement?.nextElementSibling!;
-					
-					if (titleElement.textContent == title) titleElement.textContent = "";
-					
-					let b = document.createElement("b");
-					b.textContent = title + " "
-					b.classList.add("callout-latex-title");
-					
-					titleElement.prepend(b);
-		
-					svg.remove();
-					svgs.remove(svg)
-				});
-			}, 10);
-		
-			setTimeout(() => {clearInterval(handle)}, 10000);
-		};
-		this.registerMarkdownPostProcessor(processIcons);
+	process(element: HTMLElement) {
+		const handle = setInterval(
+			() =>
+				element
+					.findAll(`svg.svg-icon`)
+					.filter(svg => svg.parentElement?.classList.contains('callout-icon'))
+					.forEach(svg => {
+						const content = svg.parentElement?.parentElement?.parentElement?.getAttr('data-callout')!
+						const match: (string | undefined)[] | null = titleRegex.exec(content)
+						if (content !== 'note' && match !== null) {
+							const [title, name] = match.slice(1).map(group =>
+								group
+									?.split('-')
+									.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+									.join(' '),
+							)
 
-		this.app.workspace.on("layout-change", () => {
-			this.app.workspace.iterateAllLeaves((leaf) => {
-				if (leaf.view.getViewType() === "markdown") {
-					const container = leaf.view.containerEl;
-					processIcons(container);
-				}
-			});
-		});
+							const titleElement = svg.parentElement?.nextElementSibling!
+							if (titleElement.textContent === content.charAt(0).toUpperCase() + content.replace(/-/g, ' ').slice(1)) titleElement.textContent = ''
+
+							let bend = document.createElement('b')
+							bend.textContent = '. '
+							bend.classList.add('callout-latex-title')
+							titleElement.prepend(bend)
+
+							if (name !== undefined) {
+								let i = document.createElement('i')
+								i.textContent = `(${name})`
+								i.classList.add('callout-latex-name')
+								titleElement.prepend(i)
+							}
+
+							let b = document.createElement('b')
+							b.textContent = title!
+							b.classList.add('callout-latex-title')
+							titleElement.prepend(b)
+						}
+
+						svg.remove()
+					}),
+			10,
+		)
+		setTimeout(() => clearInterval(handle), 10_000)
+	}
+
+	onload() {
+		this.registerMarkdownPostProcessor(this.process)
+		this.app.workspace.on('layout-change', () => this.app.workspace.iterateAllLeaves(leaf => leaf.view.getViewType() === 'markdown' && this.process(leaf.view.containerEl)))
 	}
 }

@@ -8,47 +8,52 @@ If your plugin does not need CSS, delete this file.
 */
 
 * {
-    --callout-radius: 0px;
-    --callout-title-weight: var(--font-normal);
+	--callout-radius: 0px;
+	--callout-title-weight: var(--font-normal);
 }
 
 .cm-callout {
-    /** padding-top: 10px !important; **/
+	/** padding-top: 10px !important; **/
 }
 
 .callout {
-    /** even padding **/
-    padding-left: 12px !important;
+	/** even padding **/
+	padding-left: 12px !important;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
-    border-color: var(--text-normal) !important;
-    border-image: none !important;
-    border-width: 1px !important;
-    background-color: transparent !important;
+	border-color: var(--text-normal) !important;
+	border-image: none !important;
+	border-width: 1px !important;
+	background-color: transparent !important;
 }
 
 .callout-title {
-    padding: 0px !important;
-    align-items: center !important;
+	padding: 0px !important;
+	align-items: center !important;
 }
 
-.callout-title, .callout-icon > svg {
-    color: var(--text-normal);
+.callout-title,
+.callout-icon > svg {
+	color: var(--text-normal);
 }
 
 .callout-title-inner {
-    width: 100%;
+	width: 100%;
 }
 
 .callout-content {
-    /** centering content **/
-    padding-left: 0px !important;
+	/** centering content **/
+	padding-left: 0px !important;
 }
 
-.callout-fold { 
-    margin-left: auto;
+.callout-fold {
+	margin-left: auto;
 }
 
 .callout-latex-title {
 	font-weight: 600;
+}
+
+.callout-latex-name {
+	/* font-weight: 600; */
 }
