@@ -1,0 +1,57 @@
+.callout-latex.callout {
+	--callout-radius: 0px;
+	--callout-title-weight: var(--font-normal);
+
+	&.callout-bordered {
+		padding-left: 12px;
+		padding-top: 12px;
+		padding-bottom: 12px;
+		border-color: var(--text-normal);
+		border-image: none;
+		border-width: 1px;
+		background-color: transparent;
+
+		.callout-content {
+			padding-left: 0px;
+		}
+	}
+
+	&:not(.callout-bordered) {
+		padding: 0px;
+		border-width: 0px;
+		background-color: transparent;
+
+		.callout-content {
+			padding-left: 1ch;
+		}
+	}
+
+	.callout-title {
+		padding: 0px;
+		gap: 0px;
+		align-items: center;
+		color: var(--text-normal);
+
+		.callout-title-inner {
+			width: 100%;
+		}
+
+		.math-block .MathJax[display='true'] {
+			padding: 0.5em 0;
+			margin: 0;
+		}
+	}
+
+	.callout-icon > svg {
+		color: var(--text-normal);
+	}
+
+	.callout-fold {
+		margin-left: auto;
+	}
+
+	/* Custom */
+	.callout-latex-title {
+		font-weight: 600;
+	}
+}
