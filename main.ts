@@ -52,21 +52,21 @@ export default class LatexCalloutsPlugin extends Plugin {
 				if (titleElement.querySelector('.callout-latex-title, .callout-latex-name')) return
 
 				// Create HTML
-				if (title.trim().length !== 0) {
+				if (title.trim() !== '') {
 					const bend = activeDocument.createElement('b')
 					bend.textContent = '. '
 					bend.classList.add('callout-latex-title')
 					titleElement.prepend(bend)
 				}
 
-				if (name.trim().length !== 0) {
+				if (name.trim() !== '') {
 					const i = activeDocument.createElement('i')
 					i.textContent = ` (${name})`
 					i.classList.add('callout-latex-name')
 					titleElement.prepend(i)
 				}
 
-				if (title.trim().length !== 0) {
+				if (title.trim() !== '') {
 					const b = activeDocument.createElement('b')
 					b.textContent = title
 					b.classList.add('callout-latex-title')
@@ -76,7 +76,11 @@ export default class LatexCalloutsPlugin extends Plugin {
 
 			element
 				.findAll('div.callout-content')
-				.filter(content => content.textContent === null || (content.textContent.trim().length === 0 && content.childElementCount === 0))
+				.filter(
+					content =>
+						(content.childElementCount === 0 && (content.textContent?.trim() ?? '') === '') || //
+						(content.childElementCount === 1 && (content.firstChild!.textContent?.trim() ?? '') == ''),
+				)
 				.forEach(content => content.remove())
 		}, 50)
 
