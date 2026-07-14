@@ -78,8 +78,8 @@ export default class LatexCalloutsPlugin extends Plugin {
 				.findAll('div.callout-content')
 				.filter(
 					content =>
-						(content.childElementCount === 0 && (content.textContent?.trim() ?? '') === '') || //
-						(content.childElementCount === 1 && (content.firstChild!.textContent?.trim() ?? '') == ''),
+						(!content.hasChildNodes() && (content.textContent?.trim() ?? '') === '') || //
+						(content.childElementCount === 1 && (content.firstElementChild!.textContent?.trim() ?? '') == '' && !content.firstElementChild?.hasChildNodes()),
 				)
 				.forEach(content => content.remove())
 		}, 50)
