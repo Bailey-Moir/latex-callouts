@@ -66,7 +66,7 @@ export default class LatexCalloutsPlugin extends Plugin {
 					titleElement.prepend(i)
 				}
 
-				if (title.trim() !== '') {
+				if (title.trim() !== '' || name.trim() !== '') {
 					const b = activeDocument.createElement('b')
 					b.textContent = title
 					b.classList.add('callout-latex-title')
