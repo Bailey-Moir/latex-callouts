@@ -1,4 +1,4 @@
-import { Plugin, App, PluginSettingTab, Setting } from 'obsidian'
+import { Plugin, App, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian'
 
 const titleRegex = /([^(]*)(?:\(([^)]*)\))?$/
 
@@ -53,21 +53,21 @@ export default class LatexCalloutsPlugin extends Plugin {
 
 				// Create HTML
 				if (title.trim() !== '') {
-					const bend = activeDocument.createElement('b')
+					const bend = createEl('b')
 					bend.textContent = '. '
 					bend.classList.add('callout-latex-title')
 					titleElement.prepend(bend)
 				}
 
 				if (name.trim() !== '') {
-					const i = activeDocument.createElement('i')
+					const i = createEl('i')
 					i.textContent = ` (${name})`
 					i.classList.add('callout-latex-name')
 					titleElement.prepend(i)
 				}
 
-				if (title.trim() !== '') {
-					const b = activeDocument.createElement('b')
+				if (title.trim() !== '' || name.trim() !== '') {
+					const b = createEl('b')
 					b.textContent = title
 					b.classList.add('callout-latex-title')
 					titleElement.prepend(b)
@@ -108,45 +108,48 @@ class LatexCalloutsSettingTab extends PluginSettingTab {
 		this.plugin = plugin
 	}
 
-	display(): void {
-		const { containerEl } = this
+	getSettingDefinitions(): SettingDefinitionItem<string>[] {
+		return [
+			{
+				name: 'Bordered callouts',
+				desc: 'Toggle callouts using block borders.',
+				control: {
+					type: 'toggle',
+					key: 'border',
+				},
+			},
+			{
+				name: 'Whitelist',
+				desc: 'Callout types to be altered by the plugin, one per line. Leave empty to allow all callouts.',
+				render: setting => {
+					setting.addTextArea(text =>
+						text.setValue(this.plugin.settings.whitelist.join('\n')).onChange(async value => {
+							this.plugin.settings.whitelist = value
+								.split('\n')
+								.map(line => line.trim())
+								.filter(line => line.length > 0)
 
-		containerEl.empty()
+							await this.plugin.saveData(this.plugin.settings)
+						}),
+					)
+				},
+			},
+			{
+				name: 'Blacklist',
+				desc: 'Callout types to be ignored by the plugin, one per line.',
+				render: setting => {
+					setting.addTextArea(text =>
+						text.setValue(this.plugin.settings.blacklist.join('\n')).onChange(async value => {
+							this.plugin.settings.blacklist = value
+								.split('\n')
+								.map(line => line.trim())
+								.filter(line => line.length > 0)
 
-		new Setting(containerEl)
-			.setName('Bordered callouts')
-			.setDesc('Toggle callouts using block borders.')
-			.addToggle(toggle =>
-				toggle.setValue(this.plugin.settings.border).onChange(async value => {
-					this.plugin.settings.border = value
-					await this.plugin.saveSettings()
-				}),
-			)
-
-		new Setting(containerEl)
-			.setName('Whitelist')
-			.setDesc('Callout types to be altered by the plugin, one per line. Leave empty to allow all callouts.')
-			.addTextArea(text =>
-				text.setValue(this.plugin.settings.whitelist.join('\n')).onChange(async value => {
-					this.plugin.settings.whitelist = value
-						.split('\n')
-						.map(line => line.trim())
-						.filter(line => line.length > 0)
-					await this.plugin.saveSettings()
-				}),
-			)
-
-		new Setting(containerEl)
-			.setName('Blacklist')
-			.setDesc('Callout types to be ignored by the plugin, one per line.')
-			.addTextArea(text =>
-				text.setValue(this.plugin.settings.blacklist.join('\n')).onChange(async value => {
-					this.plugin.settings.blacklist = value
-						.split('\n')
-						.map(line => line.trim())
-						.filter(line => line.length > 0)
-					await this.plugin.saveSettings()
-				}),
-			)
+							await this.plugin.saveData(this.plugin.settings)
+						}),
+					)
+				},
+			},
+		]
 	}
 }
